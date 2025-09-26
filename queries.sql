@@ -1,3 +1,37 @@
+-- 1) (Проверочные запросы) посмотреть 10 фильмов
+SELECT * FROM movies LIMIT 10;
+
+-- 2) фильтр + сортировка: топ 20 фильмов после 2010 года (парсим год из title)
+SELECT 
+  title,
+  regexp_replace(title, '.*\((\d{4})\).*', '\1')::INT AS release_year
+FROM movies
+WHERE title ~ '\(\d{4}\)' AND regexp_replace(title, '.*\((\d{4})\).*', '\1')::INT >= 2010
+LIMIT 20;
+
+-- 3) агрегации: средний рейтинг фильмов по жанрам
+SELECT 
+    m.genres,
+    COUNT(r.rating) AS total_ratings,
+    ROUND(AVG(r.rating), 2) AS avg_rating
+FROM movies m
+JOIN ratings r ON m.movieid = r.movieid
+GROUP BY m.genres
+ORDER BY avg_rating DESC
+LIMIT 10;
+
+-- 4) пример JOIN: средний рейтинг по жанрам (парсим genres из movies)
+SELECT 
+  genre,
+  ROUND(AVG(r.rating),2) AS avg_rating
+FROM ratings r
+JOIN movies m ON r.movieId = m.movieId
+CROSS JOIN LATERAL unnest(string_to_array(m.genres, '|')) AS genre
+GROUP BY genre
+ORDER BY avg_rating DESC;
+
+
+-- 10 аналитических запросов
 -- 1. Средний рейтинг фильмов по каждому году выпуска
 SELECT 
   CASE 
@@ -105,4 +139,3 @@ FROM ratings r
 WHERE userid = 1
 GROUP BY month
 ORDER BY month;
--- динамика средней оценки пользователя (помесячно)

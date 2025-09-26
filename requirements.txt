@@ -1,0 +1,5 @@
+plotly==6.3.0
+pandas==2.3.2
+psycopg2-binary==2.9.10
+matplotlib==3.10.6
+SQLAlchemy==2.0.43

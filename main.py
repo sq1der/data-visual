@@ -1,64 +1,59 @@
 import psycopg2
 import pandas as pd
+import os
 
-# Настройки подключения — замени на свои при необходимости
-conn_params = {
-    "dbname": "movies_db",
-    "user": "amanbelgibay",   # твой PostgreSQL пользователь
-    "password": "0909",
-    "host": "localhost",
-    "port": 5432
-}
+DB_NAME = "movies_db"
+DB_USER = "postgres"
+DB_PASS = "0909"
+DB_HOST = "localhost"
+DB_PORT = "5432"
 
-# SQL-запросы (берём 2 примера: средний рейтинг по годам и топ-10 фильмов)
-queries = {
-    "avg_rating_by_year": """
-        SELECT 
-          regexp_replace(title, '.*\\((\\d{4})\\).*', '\\1')::INT AS release_year,
-          AVG(rating) AS avg_rating,
-          COUNT(*) AS num_ratings
-        FROM ratings r
-        JOIN movies m ON r.movieid = m.movieid
-        WHERE title ~ '\\(\\d{4}\\)'
-        GROUP BY release_year
-        ORDER BY release_year;
-    """,
-    "top10_movies_by_ratings_count": """
-        SELECT m.title, COUNT(r.rating) AS num_ratings
-        FROM ratings r
-        JOIN movies m ON r.movieid = m.movieid
-        GROUP BY m.title
-        ORDER BY num_ratings DESC
-        LIMIT 10;
-    """
-}
+def load_queries(sql_file="queries.sql"):
+    queries = {}
+    with open(sql_file, "r", encoding="utf-8") as f:
+        content = f.read()
 
-def run_query(conn, sql):
-    """Выполняет SQL-запрос и возвращает DataFrame"""
-    return pd.read_sql(sql, conn)
+    raw_queries = [q.strip() for q in content.split(";") if q.strip()]
+    for i, query in enumerate(raw_queries, start=1):
+        queries[f"query_{i}"] = query
+    return queries
 
-def main():
-    # Подключение к БД
+def run_queries():
     try:
-        conn = psycopg2.connect(**conn_params)
-        print("✅ Успешное подключение к БД")
+        output_dir = os.path.join(os.getcwd(), "output")
+        os.makedirs(output_dir, exist_ok=True)
 
-        # Выполняем запросы
-        for name, sql in queries.items():
-            print(f"\n🔹 Результат запроса: {name}")
-            df = run_query(conn, sql)
-            print(df.head())  # выводим первые строки в терминал
-            # Сохраняем в CSV
-            csv_filename = f"{name}.csv"
-            df.to_csv(csv_filename, index=False)
-            print(f"💾 Сохранено в {csv_filename}")
+        conn = psycopg2.connect(
+            dbname=DB_NAME,
+            user=DB_USER,
+            password=DB_PASS,
+            host=DB_HOST,
+            port=DB_PORT
+        )
+        print("Успешное подключение к базе данных")
+
+        queries = load_queries("queries.sql")
+        print("Загруженные запросы:", list(queries.keys()))
+
+        for name, query in queries.items():
+            try:
+                print(f"\n🔹 Выполняется запрос: {name}")
+                df = pd.read_sql(query, conn)
+                print(df.head())
+
+                file_path = os.path.join(output_dir, f"{name}.csv")
+                df.to_csv(file_path, index=False, encoding="utf-8")
+
+                print(f"Сохранено: {file_path} | Строк: {len(df)}")
+
+            except Exception as qe:
+                print(f"Ошибка в запросе '{name}':", qe)
+
+        conn.close()
+        print("\nВсе запросы выполнены")
 
     except Exception as e:
-        print("Ошибка:", e)
-    finally:
-        if 'conn' in locals():
-            conn.close()
-            print("🔒 Соединение закрыто")
+        print("Ошибка подключения или выполнения:", e)
 
 if __name__ == "__main__":
-    main()
+    run_queries()
