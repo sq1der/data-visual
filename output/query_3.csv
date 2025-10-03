@@ -1,0 +1,11 @@
+genres,total_ratings,avg_rating
+Action|Drama|Mystery|Romance|Sci-Fi|Thriller,1,5.0
+Adventure|Children|Comedy|Documentary|Drama,1,5.0
+Adventure|Drama|Romance|War|Western,2,5.0
+Comedy|Fantasy|Romance|Thriller,4,4.63
+Action|Children|Drama|Thriller,1,4.5
+Action|Drama|Fantasy|Mystery,2,4.5
+Action|Animation|Crime|Mystery,2,4.25
+Action|Children|Drama|Western,2,4.25
+Action|Adventure|Mystery|Romance|Thriller,19613,4.2
+Action|Adventure|Animation|Children|Crime|Mystery,3,4.17

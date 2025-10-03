@@ -1,141 +1,173 @@
--- 1) (Проверочные запросы) посмотреть 10 фильмов
-SELECT * FROM movies LIMIT 10;
-
--- 2) фильтр + сортировка: топ 20 фильмов после 2010 года (парсим год из title)
-SELECT 
-  title,
-  regexp_replace(title, '.*\((\d{4})\).*', '\1')::INT AS release_year
-FROM movies
-WHERE title ~ '\(\d{4}\)' AND regexp_replace(title, '.*\((\d{4})\).*', '\1')::INT >= 2010
-LIMIT 20;
-
--- 3) агрегации: средний рейтинг фильмов по жанрам
-SELECT 
-    m.genres,
-    COUNT(r.rating) AS total_ratings,
-    ROUND(AVG(r.rating), 2) AS avg_rating
+-- name: pie_genres_since_2000
+-- Вопрос: Какие жанры чаще всего получают оценки для фильмов, вышедших с 2000 года?
+SELECT
+  genre,
+  COUNT(DISTINCT m.movieid) AS movie_count
 FROM movies m
 JOIN ratings r ON m.movieid = r.movieid
-GROUP BY m.genres
-ORDER BY avg_rating DESC
+JOIN links l ON l.movieid = m.movieid            -- второй JOIN (требование min 2 JOIN)
+CROSS JOIN LATERAL unnest(string_to_array(m.genres, '|')) AS genre
+WHERE title ~ '\(\d{4}\)' 
+  AND regexp_replace(title, '.*\((\d{4})\).*', '\1')::INT >= 2000
+GROUP BY genre
+ORDER BY movie_count DESC;
+
+-- name: bar_top_movies_with_genome_tags
+-- Вопрос: Какие 10 фильмов получили наибольшее внимание зрителей (больше 1000 оценок)?
+-- Также показываем топовые genome-теги для каждого фильма.
+WITH movie_ratings AS (
+    SELECT
+      m.movieid,
+      m.title,
+      COUNT(r.rating) AS total_ratings,
+      ROUND(AVG(r.rating),2) AS avg_rating
+    FROM ratings r
+    JOIN movies m ON r.movieid = m.movieid
+    GROUP BY m.movieid, m.title
+    HAVING COUNT(r.rating) > 1000
+),
+tag_ranked AS (
+    SELECT
+      gs.movieid,
+      gt.tag,
+      ROW_NUMBER() OVER (PARTITION BY gs.movieid ORDER BY gs.relevance DESC) AS rn
+    FROM genome_scores gs
+    JOIN genome_tags gt ON gs.tagid = gt.tagid
+)
+SELECT
+    mr.movieid,
+    mr.title,
+    mr.total_ratings,
+    mr.avg_rating,
+    STRING_AGG(tr.tag, ', ') AS top_genome_tags
+FROM movie_ratings mr
+LEFT JOIN tag_ranked tr ON mr.movieid = tr.movieid AND tr.rn <= 5   -- топ-5 тегов
+GROUP BY mr.movieid, mr.title, mr.total_ratings, mr.avg_rating
+ORDER BY mr.total_ratings DESC
 LIMIT 10;
 
--- 4) пример JOIN: средний рейтинг по жанрам (парсим genres из movies)
-SELECT 
-  genre,
-  ROUND(AVG(r.rating),2) AS avg_rating
-FROM ratings r
-JOIN movies m ON r.movieId = m.movieId
+-- name: barh_genres_avg_rating_with_tagstats
+-- Вопрос: Какие жанры получают наивысший средний рейтинг? (только жанры с >50 фильмов)
+-- Также считаем среднее количество пользовательских тегов на фильм в жанре.
+
+WITH movie_stats AS (
+    -- 1. Вычисляем средний рейтинг и количество оценок для КАЖДОГО фильма.
+    SELECT
+        movieid,
+        ROUND(AVG(rating), 2) AS movie_avg_rating,
+        COUNT(rating) AS rating_count
+    FROM ratings
+    GROUP BY movieid
+),
+movie_tag_stats AS (
+    -- 2. Вычисляем количество пользовательских тегов для КАЖДОГО фильма (CTE с ранней агрегацией)
+    SELECT movieid, COUNT(*) AS user_tag_count
+    FROM tags
+    GROUP BY movieid
+)
+SELECT
+    genre,
+    -- Средний рейтинг жанра: усредняем средние рейтинги фильмов в жанре
+    ROUND(AVG(ms.movie_avg_rating)::numeric, 2) AS avg_rating,
+    COUNT(m.movieid) AS num_movies,
+    -- Среднее количество тегов на фильм: усредняем количество тегов фильмов в жанре
+    ROUND(AVG(COALESCE(mts.user_tag_count, 0))::numeric, 2) AS avg_user_tags_per_movie
+FROM movies m
+-- Денормализация жанров
 CROSS JOIN LATERAL unnest(string_to_array(m.genres, '|')) AS genre
+-- Присоединяем статистику рейтинга
+JOIN movie_stats ms ON m.movieid = ms.movieid
+-- Присоединяем статистику тегов (используем LEFT JOIN, если у фильма нет тегов)
+LEFT JOIN movie_tag_stats mts ON m.movieid = mts.movieid
 GROUP BY genre
+HAVING COUNT(m.movieid) > 50
 ORDER BY avg_rating DESC;
 
-
--- 10 аналитических запросов
--- 1. Средний рейтинг фильмов по каждому году выпуска
-SELECT 
-  CASE 
-    WHEN title ~ '\(\d{4}\)' 
-    THEN regexp_replace(title, '.*\((\d{4})\).*', '\1')::INT 
-  END AS release_year,
-  AVG(rating) AS avg_rating,
-  COUNT(*) AS num_ratings
-FROM ratings r
-JOIN movies m ON r.movieid = m.movieid
-GROUP BY release_year
-ORDER BY release_year;
--- считает средний рейтинг по годам выпуска
-
--- 2. Топ-10 фильмов по количеству оценок
-SELECT 
-  m.title,
-  COUNT(r.rating) AS total_ratings,
-  ROUND(AVG(r.rating),2) AS avg_rating
-FROM ratings r
-JOIN movies m ON r.movieid = m.movieid
-GROUP BY m.title
-ORDER BY total_ratings DESC
-LIMIT 10;
--- выводит 10 фильмов с наибольшим числом оценок
-
--- 3. Самые популярные жанры (парсинг genres)
-SELECT 
-  unnest(string_to_array(m.genres, '|')) AS genre,
-  COUNT(r.rating) AS total_ratings
-FROM ratings r
-JOIN movies m ON r.movieid = m.movieid
-GROUP BY genre
-ORDER BY total_ratings DESC;
--- считает количество оценок по каждому жанру
-
--- 4. Среднее количество тегов на фильм
-SELECT 
-  AVG(tags_count) AS avg_tags_per_movie
-FROM (
-  SELECT movieid, COUNT(*) AS tags_count
-  FROM tags
-  GROUP BY movieid
-) t;
--- среднее количество тегов на фильм
-
--- 5. Пользователи с наибольшей активностью (по ratings)
-SELECT 
-  userid,
-  COUNT(*) AS ratings_count,
-  ROUND(AVG(rating),2) AS avg_rating
-FROM ratings
-GROUP BY userid
-ORDER BY ratings_count DESC
-LIMIT 10;
--- 10 самых активных пользователей по количеству оценок
-
--- 6. Топ-теги по релевантности для конкретного фильма (пример: movieId=1)
-SELECT 
-  gt.tag,
-  gs.relevance
-FROM genome_scores gs
-JOIN genome_tags gt ON gs.tagid = gt.tagid
-WHERE gs.movieid = 1
-ORDER BY gs.relevance DESC
-LIMIT 10;
--- 10 тегов с наибольшей релевантностью для фильма с movieId=1
-
--- 7. Средняя релевантность тегов по жанрам
-SELECT 
-  genre,
-  ROUND(AVG(gs.relevance),3) AS avg_relevance
-FROM genome_scores gs
-JOIN genome_tags gt ON gs.tagid = gt.tagid
-JOIN movies m ON gs.movieid = m.movieid
-CROSS JOIN LATERAL unnest(string_to_array(m.genres, '|')) AS genre
-GROUP BY genre
-ORDER BY avg_relevance DESC;
--- средняя релевантность тегов для каждого жанра
-
--- 8. Средняя длина названия фильма по жанрам
-SELECT 
-    genre,
-    AVG(LENGTH(title)) AS avg_title_length
-FROM movies
-CROSS JOIN LATERAL unnest(string_to_array(genres, '|')) AS genre
-GROUP BY genre
-ORDER BY avg_title_length DESC;
--- показывает среднюю длину названия фильмов по жанрам
-
--- 9. Динамика количества оценок по годам
-SELECT 
+-- name: line_ratings_per_year_with_links
+-- Вопрос: Как менялась активность зрителей (число оценок) по годам для фильмов, у которых есть внешние ссылки (tmdb/imdb)?
+SELECT
   date_part('year', to_timestamp(r.timestamp))::INT AS year,
-  COUNT(*) AS ratings_count
+  COUNT(*) AS ratings_count,
+  COUNT(DISTINCT m.movieid) AS distinct_movies_rated
 FROM ratings r
+JOIN movies m ON r.movieid = m.movieid
+JOIN links l ON l.movieid = m.movieid   -- второй JOIN
+WHERE date_part('year', to_timestamp(r.timestamp)) >= 1995
 GROUP BY year
 ORDER BY year;
--- количество оценок по годам (по timestamp из ratings)
 
--- 10. Как изменяется средняя оценка одного пользователя по времени (пример: userid=1)
-SELECT 
-  date_trunc('month', to_timestamp(r.timestamp)) AS month,
+-- name: hist_avg_movie_ratings_with_genome
+-- Вопрос: Как распределяются средние рейтинги фильмов (берём фильмы с >=5 оценками) и какая у них средняя "genome relevance"?
+WITH movie_ratings AS (
+    SELECT
+        movieid,
+        ROUND(AVG(rating),2) AS avg_rating,
+        COUNT(*) AS rating_count
+    FROM ratings
+    GROUP BY movieid
+    HAVING COUNT(*) >= 5
+),
+movie_genomes AS (
+    SELECT
+        movieid,
+        ROUND(AVG(relevance),3) AS avg_genome_relevance
+    FROM genome_scores
+    GROUP BY movieid
+)
+SELECT
+    m.movieid,
+    m.title,
+    r.avg_rating,
+    g.avg_genome_relevance
+FROM movies m
+JOIN movie_ratings r ON m.movieid = r.movieid
+LEFT JOIN movie_genomes g ON m.movieid = g.movieid;
+
+
+-- name: scatter_popularity_quality_with_tagcount
+-- Вопрос: Есть ли связь между популярностью (кол-во оценок), средней оценкой и количеством пользовательских тегов?
+
+WITH movie_ratings AS (
+    -- 1. Агрегируем данные по рейтингам для каждого фильма.
+    SELECT
+        movieid,
+        COUNT(rating) AS total_ratings,
+        ROUND(AVG(rating), 2) AS avg_rating
+    FROM ratings
+    GROUP BY movieid
+    HAVING COUNT(rating) > 200
+),
+movie_tags AS (
+    -- 2. Агрегируем количество тегов для каждого фильма.
+    SELECT
+        movieid,
+        COUNT(DISTINCT tag_id) AS num_user_tags
+    FROM tags
+    GROUP BY movieid
+)
+-- 3. Соединяем агрегированные данные с таблицей movies.
+SELECT
+    m.movieid,
+    m.title,
+    mr.total_ratings,
+    mr.avg_rating,
+    COALESCE(mt.num_user_tags, 0) AS num_user_tags
+FROM movie_ratings mr
+JOIN movies m ON mr.movieid = m.movieid
+LEFT JOIN movie_tags mt ON mr.movieid = mt.movieid
+ORDER BY mr.total_ratings DESC;
+
+-- name: plotly_genre_year_trend
+-- Вопрос (для анимации): как по годам менялся интерес к жанрам (количество оценок по жанрам и годам)
+SELECT
+  date_part('year', to_timestamp(r.timestamp))::INT AS year,
+  genre,
+  COUNT(*) AS ratings_count,
   ROUND(AVG(r.rating),2) AS avg_rating
 FROM ratings r
-WHERE userid = 1
-GROUP BY month
-ORDER BY month;
+JOIN movies m ON r.movieid = m.movieid
+JOIN links l ON l.movieid = m.movieid    -- второй JOIN
+CROSS JOIN LATERAL unnest(string_to_array(m.genres, '|')) AS genre
+WHERE date_part('year', to_timestamp(r.timestamp)) BETWEEN 1995 AND 2015
+GROUP BY year, genre
+ORDER BY year, ratings_count DESC;
