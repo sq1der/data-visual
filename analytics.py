@@ -43,13 +43,70 @@ def save_fig(fig, filename):
     plt.close(fig)
     print(f"Saved chart -> {path}")
 
-def plot_pie(df, idx_col, val_col, title, fname):
-    fig, ax = plt.subplots(figsize=(7,7))
-    series = df.set_index(idx_col)[val_col]
-    series.plot.pie(autopct="%1.1f%%", ax=ax)
-    ax.set_ylabel("")
+def plot_pie(df, idx_col, val_col, title, fname, threshold_pct=2.0):
+    """
+    Построить pie chart из df.
+    df: DataFrame с колонками idx_col (категория) и val_col (значение)
+    threshold_pct: порог в процентах — все категории с долей < threshold_pct объединяются в 'Other'
+    """
+    # Защита от пустого df
+    if df is None or df.empty:
+        print("plot_pie: dataframe пустой, ничего не строим")
+        return
+
+    # Убедимся, что столбцы есть
+    if idx_col not in df.columns or val_col not in df.columns:
+        raise ValueError(f"plot_pie: ожидаемые колонки '{idx_col}' и '{val_col}' отсутствуют в df")
+
+    # Приводим к нужному виду
+    df = df[[idx_col, val_col]].copy()
+    df = df.rename(columns={idx_col: "genre", val_col: "genre_count"})
+    df["genre_count"] = pd.to_numeric(df["genre_count"], errors="coerce").fillna(0).astype(int)
+
+    total = df["genre_count"].sum()
+    if total == 0:
+        print("plot_pie: сумма значений = 0, ничего не строим")
+        return
+
+    df["percentage"] = df["genre_count"] / total * 100
+
+    # Разделяем основные и мелкие жанры
+    main_genres = df[df["percentage"] >= threshold_pct].sort_values(by="genre_count", ascending=False)
+    other_genres = df[df["percentage"] < threshold_pct].sort_values(by="genre_count", ascending=False)
+
+    # Собираем финальную таблицу
+    final_df = main_genres.copy()
+    other_sum = int(other_genres["genre_count"].sum())
+    if other_sum > 0:
+        final_df = pd.concat([
+            final_df,
+            pd.DataFrame({"genre": ["Other"], "genre_count": [other_sum], "percentage": [other_sum / total * 100]})
+        ], ignore_index=True)
+
+    # Построение (через объектную модель, чтобы передать fig в save_fig)
+    fig, ax = plt.subplots(figsize=(8, 6))
+    wedges, texts, autotexts = ax.pie(
+        final_df["genre_count"],
+        labels=final_df["genre"],
+        autopct="%.1f%%",
+        startangle=90
+        )
+    
     ax.set_title(title)
+    ax.axis("equal")
+
+
+    # Легенда для "Other" — перечислим какие жанры вошли
+    if not other_genres.empty:
+        other_list = other_genres["genre"].tolist()
+        legend_text = "Other contains: " + ", ".join(other_list)
+        # Помещаем маленький текст под графиком
+        plt.figtext(0.5, -0.05, legend_text, wrap=True, ha="center", fontsize=9)
+
+    # Сохраняем картинку
     save_fig(fig, fname)
+
+
 
 def plot_bar(df, x, y, title, fname, rotate_xticks=45):
     fig, ax = plt.subplots(figsize=(10,6))
