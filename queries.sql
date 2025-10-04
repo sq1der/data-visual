@@ -171,3 +171,16 @@ CROSS JOIN LATERAL unnest(string_to_array(m.genres, '|')) AS genre
 WHERE date_part('year', to_timestamp(r.timestamp)) BETWEEN 1995 AND 2015
 GROUP BY year, genre
 ORDER BY year, ratings_count DESC;
+
+-- name: top10_avg_movie_ratings
+SELECT 
+    m.movieid,
+    m.title,
+    ROUND(AVG(r.rating), 2) AS avg_rating,
+    COUNT(r.rating) AS rating_count
+FROM movies m
+JOIN ratings r ON m.movieid = r.movieid
+GROUP BY m.movieid, m.title
+HAVING COUNT(r.rating) >= 5
+ORDER BY avg_rating DESC
+LIMIT 10;

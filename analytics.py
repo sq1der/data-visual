@@ -152,7 +152,7 @@ def main():
         # укоротим подписи
         df_bar['short_title'] = df_bar['title'].str.slice(0,60)
         plot_bar(df_bar, x="short_title", y="total_ratings",
-                 title="Топ-10 фильмов по количеству оценок (и их avg_rating)", fname="bar_top_movies.png")
+                 title="Топ-10 фильмов по количеству оценок ", fname="bar_top_movies.png")
 
         # 3) Barh: средний рейтинг по жанрам
         df_barh = pd.read_sql(queries["barh_genres_avg_rating_with_tagstats"], engine)
@@ -176,6 +176,14 @@ def main():
         print(f"scatter_popularity_quality_with_tagcount: {len(df_scatter)} rows")
         plot_scatter(df_scatter, x="total_ratings", y="avg_rating",
                      title="Популярность vs Качество (только фильмы с >200 оценок)", fname="scatter_popularity_vs_quality.png")
+        
+        df_bar = pd.read_sql(queries["top10_avg_movie_ratings"], engine)
+        print(f"top10_avg_movie_ratings: {len(df_bar)} rows")
+        # укоротим подписи
+        df_bar['short_title'] = df_bar['title'].str.slice(0,60)
+        plot_bar(df_bar, x="short_title", y="avg_rating",
+                 title="Топ-10 фильмов по средней оценке", fname="bar_top_movies_to_check.png")
+
 
         # Plotly interactive (сохраняем html)
         df_plotly = pd.read_sql(queries["plotly_genre_year_trend"], engine)
