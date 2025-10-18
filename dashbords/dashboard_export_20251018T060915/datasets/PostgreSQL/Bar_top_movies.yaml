@@ -1,0 +1,100 @@
+table_name: 'Bar top movies '
+main_dttm_col: null
+description: null
+default_endpoint: null
+offset: 0
+cache_timeout: null
+catalog: movies_db
+schema: public
+sql: "WITH movie_ratings AS (\n    SELECT\n      m.movieid,\n      m.title,\n    \
+  \  COUNT(r.rating) AS total_ratings,\n      ROUND(AVG(r.rating),2) AS avg_rating\n\
+  \    FROM ratings r\n    JOIN movies m ON r.movieid = m.movieid\n    GROUP BY m.movieid,\
+  \ m.title\n    HAVING COUNT(r.rating) > 1000\n),\ntag_ranked AS (\n    SELECT\n\
+  \      gs.movieid,\n      gt.tag,\n      ROW_NUMBER() OVER (PARTITION BY gs.movieid\
+  \ ORDER BY gs.relevance DESC) AS rn\n    FROM genome_scores gs\n    JOIN genome_tags\
+  \ gt ON gs.tagid = gt.tagid\n)\nSELECT\n    mr.movieid,\n    mr.title,\n    mr.total_ratings,\n\
+  \    mr.avg_rating,\n    STRING_AGG(tr.tag, ', ') AS top_genome_tags\nFROM movie_ratings\
+  \ mr\nLEFT JOIN tag_ranked tr ON mr.movieid = tr.movieid AND tr.rn <= 5   -- \u0442\
+  \u043E\u043F-5 \u0442\u0435\u0433\u043E\u0432\nGROUP BY mr.movieid, mr.title, mr.total_ratings,\
+  \ mr.avg_rating\nORDER BY mr.total_ratings DESC\nLIMIT 10"
+params: null
+template_params: null
+filter_select_enabled: false
+fetch_values_predicate: null
+extra: null
+normalize_columns: true
+always_filter_main_dttm: false
+uuid: d3c3bb0f-12d6-42a6-9dc6-319f98506d09
+metrics:
+- metric_name: count
+  verbose_name: null
+  metric_type: null
+  expression: count(*)
+  description: null
+  d3format: null
+  currency: null
+  extra: null
+  warning_text: null
+columns:
+- column_name: avg_rating
+  verbose_name: null
+  is_dttm: false
+  is_active: true
+  type: DECIMAL
+  advanced_data_type: null
+  groupby: true
+  filterable: true
+  expression: null
+  description: null
+  python_date_format: null
+  extra: null
+- column_name: total_ratings
+  verbose_name: null
+  is_dttm: false
+  is_active: true
+  type: LONGINTEGER
+  advanced_data_type: null
+  groupby: true
+  filterable: true
+  expression: null
+  description: null
+  python_date_format: null
+  extra: null
+- column_name: movieid
+  verbose_name: null
+  is_dttm: false
+  is_active: true
+  type: INTEGER
+  advanced_data_type: null
+  groupby: true
+  filterable: true
+  expression: null
+  description: null
+  python_date_format: null
+  extra: null
+- column_name: top_genome_tags
+  verbose_name: null
+  is_dttm: false
+  is_active: true
+  type: STRING
+  advanced_data_type: null
+  groupby: true
+  filterable: true
+  expression: null
+  description: null
+  python_date_format: null
+  extra: null
+- column_name: title
+  verbose_name: null
+  is_dttm: false
+  is_active: true
+  type: STRING
+  advanced_data_type: null
+  groupby: true
+  filterable: true
+  expression: null
+  description: null
+  python_date_format: null
+  extra: null
+version: 1.0.0
+database_uuid: e26810fd-4165-4338-b335-f00bb40947ac

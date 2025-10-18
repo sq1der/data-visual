@@ -1,0 +1,14 @@
+database_name: PostgreSQL
+sqlalchemy_uri: postgresql+psycopg2://postgres:XXXXXXXXXX@host.docker.internal:5432/movies_db
+cache_timeout: null
+expose_in_sqllab: true
+allow_run_async: false
+allow_ctas: true
+allow_cvas: true
+allow_dml: false
+allow_file_upload: true
+extra:
+  allows_virtual_table_explore: true
+impersonate_user: false
+uuid: e26810fd-4165-4338-b335-f00bb40947ac
+version: 1.0.0

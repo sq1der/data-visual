@@ -1,0 +1,80 @@
+slice_name: "\u0420\u0430\u0441\u043F\u0440\u0435\u0434\u0435\u043B\u0435\u043D\u0438\
+  \u044F \u0441\u0440\u0435\u0434\u043D\u0438\u0445 \u0440\u0435\u0439\u0442\u0438\
+  \u043D\u0433\u043E\u0432 \u0444\u0438\u043B\u044C\u043C\u043E\u0432"
+description: null
+certified_by: null
+certification_details: null
+viz_type: histogram_v2
+params:
+  datasource: 37__table
+  viz_type: histogram_v2
+  slice_id: 206
+  adhoc_filters: []
+  row_limit: 50000
+  groupby: []
+  color_scheme: supersetColors
+  x_axis_title: "\u0421\u0440\u0435\u0434\u043D\u044F\u044F \u043E\u0446\u0435\u043D\
+    \u043A\u0430"
+  y_axis_title: "\u041A\u043E\u043B\u0438\u0447\u0435\u0441\u0442\u0432\u043E"
+  show_legend: false
+  normalize: false
+  cumulative: false
+  extra_form_data: {}
+  dashboards:
+  - 11
+  column: avg_rating
+  bins: 10
+  form_data_bak:
+    datasource: 37__table
+    viz_type: histogram
+    slice_id: 206
+    time_range: No filter
+    all_columns_x:
+    - avg_rating
+    adhoc_filters: []
+    row_limit: 50000
+    groupby: []
+    color_scheme: supersetColors
+    link_length: '10'
+    x_axis_label: "\u0421\u0440\u0435\u0434\u043D\u044F\u044F \u043E\u0446\u0435\u043D\
+      \u043A\u0430"
+    y_axis_label: "\u041A\u043E\u043B\u0438\u0447\u0435\u0441\u0442\u0432\u043E"
+    show_legend: false
+    normalized: false
+    cumulative: false
+    extra_form_data: {}
+    dashboards:
+    - 11
+  queries_bak:
+  - time_range: No filter
+    filters: []
+    extras:
+      having: ''
+      where: ''
+    applied_time_extras: {}
+    columns: []
+    metrics: []
+    annotation_layers: []
+    row_limit: 50000
+    series_limit: 0
+    order_desc: true
+    url_params: {}
+    custom_params: {}
+    custom_form_data: {}
+query_context: '{"datasource": {"id": 37, "type": "table"}, "force": false, "queries":
+  [{"filters": [], "extras": {"having": "", "where": ""}, "applied_time_extras": {},
+  "columns": ["avg_rating"], "annotation_layers": [], "row_limit": 50000, "series_limit":
+  0, "order_desc": true, "url_params": {}, "custom_params": {}, "custom_form_data":
+  {}, "post_processing": [{"operation": "histogram", "options": {"column": "avg_rating",
+  "groupby": [], "bins": 10, "cumulative": false, "normalize": false}}]}], "form_data":
+  {"datasource": "37__table", "viz_type": "histogram_v2", "slice_id": 206, "adhoc_filters":
+  [], "row_limit": 50000, "groupby": [], "color_scheme": "supersetColors", "x_axis_title":
+  "\u0421\u0440\u0435\u0434\u043d\u044f\u044f \u043e\u0446\u0435\u043d\u043a\u0430",
+  "y_axis_title": "\u041a\u043e\u043b\u0438\u0447\u0435\u0441\u0442\u0432\u043e",
+  "show_legend": false, "normalize": false, "cumulative": false, "extra_form_data":
+  {}, "dashboards": [11], "column": "avg_rating", "bins": 10}, "result_format": "json",
+  "result_type": "full"}'
+cache_timeout: null
+uuid: f8904576-9cd8-40f0-8b89-94d76adea7a9
+version: 1.0.0
+dataset_uuid: dfbc791a-c1ba-4618-af1f-a604563eee2e

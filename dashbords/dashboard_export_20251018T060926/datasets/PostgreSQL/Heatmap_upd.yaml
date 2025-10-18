@@ -1,0 +1,74 @@
+table_name: Heatmap upd
+main_dttm_col: null
+description: null
+default_endpoint: null
+offset: 0
+cache_timeout: null
+catalog: movies_db
+schema: public
+sql: "WITH movie_avg AS (\n    SELECT\n        m.movieid,\n        ROUND(AVG(r.rating),\
+  \ 2) AS avg_rating,\n        unnest(string_to_array(m.genres, '|')) AS genre\n \
+  \   FROM movies m\n    JOIN ratings r ON m.movieid = r.movieid\n    GROUP BY m.movieid,\
+  \ m.genres\n    HAVING COUNT(r.rating) >= 5\n)\nSELECT\n    genre,\n    CASE\n \
+  \       WHEN avg_rating < 2 THEN '1.0\u20131.9'\n        WHEN avg_rating < 3 THEN\
+  \ '2.0\u20132.9'\n        WHEN avg_rating < 4 THEN '3.0\u20133.9'\n        WHEN\
+  \ avg_rating < 5 THEN '4.0\u20134.9'\n        ELSE '5.0'\n    END AS rating_bucket,\n\
+  \    COUNT(*) AS movie_count\nFROM movie_avg\nGROUP BY genre, rating_bucket\nORDER\
+  \ BY genre, rating_bucket"
+params: null
+template_params: null
+filter_select_enabled: false
+fetch_values_predicate: null
+extra: null
+normalize_columns: true
+always_filter_main_dttm: false
+uuid: c816b77b-64fc-4700-8639-4edf5e653d8d
+metrics:
+- metric_name: count
+  verbose_name: null
+  metric_type: null
+  expression: count(*)
+  description: null
+  d3format: null
+  currency: null
+  extra: null
+  warning_text: null
+columns:
+- column_name: movie_count
+  verbose_name: null
+  is_dttm: false
+  is_active: true
+  type: LONGINTEGER
+  advanced_data_type: null
+  groupby: true
+  filterable: true
+  expression: null
+  description: null
+  python_date_format: null
+  extra: null
+- column_name: rating_bucket
+  verbose_name: null
+  is_dttm: false
+  is_active: true
+  type: STRING
+  advanced_data_type: null
+  groupby: true
+  filterable: true
+  expression: null
+  description: null
+  python_date_format: null
+  extra: null
+- column_name: genre
+  verbose_name: null
+  is_dttm: false
+  is_active: true
+  type: STRING
+  advanced_data_type: null
+  groupby: true
+  filterable: true
+  expression: null
+  description: null
+  python_date_format: null
+  extra: null
+version: 1.0.0
+database_uuid: e26810fd-4165-4338-b335-f00bb40947ac

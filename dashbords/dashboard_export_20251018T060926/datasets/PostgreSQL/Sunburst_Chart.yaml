@@ -1,0 +1,74 @@
+table_name: Sunburst Chart
+main_dttm_col: null
+description: null
+default_endpoint: null
+offset: 0
+cache_timeout: null
+catalog: movies_db
+schema: public
+sql: "WITH movie_avg AS (\n  SELECT\n    m.movieid,\n    ROUND(AVG(r.rating), 1) AS\
+  \ avg_rating\n  FROM ratings r\n  JOIN movies m ON m.movieid = r.movieid\n  GROUP\
+  \ BY m.movieid\n  HAVING COUNT(r.rating) >= 5  -- \u0442\u043E\u043B\u044C\u043A\
+  \u043E \u0444\u0438\u043B\u044C\u043C\u044B \u0441 >= 5 \u043E\u0446\u0435\u043D\
+  \u043A\u0430\u043C\u0438\n),\ngenre_split AS (\n  SELECT\n    ma.movieid,\n    ma.avg_rating,\n\
+  \    UNNEST(string_to_array(m.genres, '|')) AS genre\n  FROM movie_avg ma\n  JOIN\
+  \ movies m ON ma.movieid = m.movieid\n)\nSELECT\n  genre,\n  avg_rating AS avg_rating_bucket,\n\
+  \  COUNT(DISTINCT movieid) AS movie_count\nFROM genre_split\nGROUP BY genre, avg_rating\n\
+  ORDER BY genre, avg_rating"
+params: null
+template_params: null
+filter_select_enabled: false
+fetch_values_predicate: null
+extra: null
+normalize_columns: true
+always_filter_main_dttm: false
+uuid: a88dafe5-a2d5-4d64-af0f-f7254ab52045
+metrics:
+- metric_name: count
+  verbose_name: null
+  metric_type: null
+  expression: count(*)
+  description: null
+  d3format: null
+  currency: null
+  extra: null
+  warning_text: null
+columns:
+- column_name: avg_rating_bucket
+  verbose_name: null
+  is_dttm: false
+  is_active: true
+  type: DECIMAL
+  advanced_data_type: null
+  groupby: true
+  filterable: true
+  expression: null
+  description: null
+  python_date_format: null
+  extra: null
+- column_name: movie_count
+  verbose_name: null
+  is_dttm: false
+  is_active: true
+  type: LONGINTEGER
+  advanced_data_type: null
+  groupby: true
+  filterable: true
+  expression: null
+  description: null
+  python_date_format: null
+  extra: null
+- column_name: genre
+  verbose_name: null
+  is_dttm: false
+  is_active: true
+  type: STRING
+  advanced_data_type: null
+  groupby: true
+  filterable: true
+  expression: null
+  description: null
+  python_date_format: null
+  extra: null
+version: 1.0.0
+database_uuid: e26810fd-4165-4338-b335-f00bb40947ac

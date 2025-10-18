@@ -1,0 +1,182 @@
+slice_name: "\u0412 \u043A\u0430\u043A\u0438\u0445 \u0436\u0430\u043D\u0440\u0430\u0445\
+  \ \u0444\u0438\u043B\u044C\u043C\u044B \u0447\u0430\u0449\u0435 \u043F\u043E\u043F\
+  \u0430\u0434\u0430\u044E\u0442 \u0432 \u043E\u043F\u0440\u0435\u0434\u0435\u043B\
+  \u0451\u043D\u043D\u044B\u0435 \u0434\u0438\u0430\u043F\u0430\u0437\u043E\u043D\u044B\
+  \ \u0440\u0435\u0439\u0442\u0438\u043D\u0433\u043E\u0432."
+description: null
+certified_by: null
+certification_details: null
+viz_type: heatmap_v2
+params:
+  datasource: 39__table
+  viz_type: heatmap_v2
+  x_axis: genre
+  groupby: rating_bucket
+  metric:
+    expressionType: SIMPLE
+    column:
+      advanced_data_type: null
+      certification_details: null
+      certified_by: null
+      column_name: movie_count
+      description: null
+      expression: null
+      filterable: true
+      groupby: true
+      id: 817
+      is_certified: false
+      is_dttm: false
+      python_date_format: null
+      type: LONGINTEGER
+      type_generic: 0
+      verbose_name: null
+      warning_markdown: null
+    aggregate: SUM
+    sqlExpression: null
+    datasourceWarning: false
+    hasCustomLabel: false
+    label: SUM(movie_count)
+    optionName: metric_hljc41rup07_enyh0qdppth
+  adhoc_filters: []
+  row_limit: 10000
+  linear_color_scheme: superset_seq_1
+  xscale_interval: 1
+  yscale_interval: 1
+  normalize_across: heatmap
+  left_margin: auto
+  bottom_margin: auto
+  value_bounds:
+  - null
+  - null
+  y_axis_format: SMART_NUMBER
+  sort_x_axis: alpha_asc
+  sort_y_axis: alpha_desc
+  show_legend: true
+  show_percentage: true
+  extra_form_data: {}
+  dashboards:
+  - 12
+  legend_type: continuous
+  form_data_bak:
+    datasource: 39__table
+    viz_type: heatmap
+    time_range: No filter
+    all_columns_x: genre
+    all_columns_y: rating_bucket
+    metric:
+      expressionType: SIMPLE
+      column:
+        advanced_data_type: null
+        certification_details: null
+        certified_by: null
+        column_name: movie_count
+        description: null
+        expression: null
+        filterable: true
+        groupby: true
+        id: 817
+        is_certified: false
+        is_dttm: false
+        python_date_format: null
+        type: LONGINTEGER
+        type_generic: 0
+        verbose_name: null
+        warning_markdown: null
+      aggregate: SUM
+      sqlExpression: null
+      datasourceWarning: false
+      hasCustomLabel: false
+      label: SUM(movie_count)
+      optionName: metric_hljc41rup07_enyh0qdppth
+    adhoc_filters: []
+    row_limit: 10000
+    sort_by_metric: true
+    linear_color_scheme: superset_seq_1
+    xscale_interval: 1
+    yscale_interval: 1
+    canvas_image_rendering: pixelated
+    normalize_across: heatmap
+    left_margin: auto
+    bottom_margin: auto
+    y_axis_bounds:
+    - null
+    - null
+    y_axis_format: SMART_NUMBER
+    sort_x_axis: alpha_asc
+    sort_y_axis: alpha_desc
+    show_legend: true
+    show_perc: true
+    extra_form_data: {}
+    dashboards:
+    - 12
+  queries_bak:
+  - time_range: No filter
+    filters: []
+    extras:
+      having: ''
+      where: ''
+    applied_time_extras: {}
+    columns: []
+    metrics:
+    - expressionType: SIMPLE
+      column:
+        advanced_data_type: null
+        certification_details: null
+        certified_by: null
+        column_name: movie_count
+        description: null
+        expression: null
+        filterable: true
+        groupby: true
+        id: 817
+        is_certified: false
+        is_dttm: false
+        python_date_format: null
+        type: LONGINTEGER
+        type_generic: 0
+        verbose_name: null
+        warning_markdown: null
+      aggregate: SUM
+      sqlExpression: null
+      datasourceWarning: false
+      hasCustomLabel: false
+      label: SUM(movie_count)
+      optionName: metric_hljc41rup07_enyh0qdppth
+    annotation_layers: []
+    row_limit: 10000
+    series_limit: 0
+    order_desc: true
+    url_params: {}
+    custom_params: {}
+    custom_form_data: {}
+query_context: '{"datasource": {"id": 39, "type": "table"}, "force": false, "queries":
+  [{"filters": [], "extras": {"having": "", "where": ""}, "applied_time_extras": {},
+  "columns": [{"columnType": "BASE_AXIS", "sqlExpression": "genre", "label": "genre",
+  "expressionType": "SQL"}, "rating_bucket"], "metrics": [{"expressionType": "SIMPLE",
+  "column": {"advanced_data_type": null, "certification_details": null, "certified_by":
+  null, "column_name": "movie_count", "description": null, "expression": null, "filterable":
+  true, "groupby": true, "id": 817, "is_certified": false, "is_dttm": false, "python_date_format":
+  null, "type": "LONGINTEGER", "type_generic": 0, "verbose_name": null, "warning_markdown":
+  null}, "aggregate": "SUM", "sqlExpression": null, "datasourceWarning": false, "hasCustomLabel":
+  false, "label": "SUM(movie_count)", "optionName": "metric_hljc41rup07_enyh0qdppth"}],
+  "annotation_layers": [], "row_limit": 10000, "series_limit": 0, "order_desc": true,
+  "url_params": {}, "custom_params": {}, "custom_form_data": {}, "orderby": [["genre",
+  true], ["rating_bucket", false]], "post_processing": [{"operation": "rank", "options":
+  {"metric": "SUM(movie_count)"}}]}], "form_data": {"datasource": "39__table", "viz_type":
+  "heatmap_v2", "x_axis": "genre", "groupby": "rating_bucket", "metric": {"expressionType":
+  "SIMPLE", "column": {"advanced_data_type": null, "certification_details": null,
+  "certified_by": null, "column_name": "movie_count", "description": null, "expression":
+  null, "filterable": true, "groupby": true, "id": 817, "is_certified": false, "is_dttm":
+  false, "python_date_format": null, "type": "LONGINTEGER", "type_generic": 0, "verbose_name":
+  null, "warning_markdown": null}, "aggregate": "SUM", "sqlExpression": null, "datasourceWarning":
+  false, "hasCustomLabel": false, "label": "SUM(movie_count)", "optionName": "metric_hljc41rup07_enyh0qdppth"},
+  "adhoc_filters": [], "row_limit": 10000, "linear_color_scheme": "superset_seq_1",
+  "xscale_interval": 1, "yscale_interval": 1, "normalize_across": "heatmap", "left_margin":
+  "auto", "bottom_margin": "auto", "value_bounds": [null, null], "y_axis_format":
+  "SMART_NUMBER", "sort_x_axis": "alpha_asc", "sort_y_axis": "alpha_desc", "show_legend":
+  true, "show_percentage": true, "extra_form_data": {}, "dashboards": [12], "legend_type":
+  "continuous"}, "result_format": "json", "result_type": "full"}'
+cache_timeout: null
+uuid: 60cd0331-5dcb-4341-9e56-bf1e460c3190
+version: 1.0.0
+dataset_uuid: c816b77b-64fc-4700-8639-4edf5e653d8d

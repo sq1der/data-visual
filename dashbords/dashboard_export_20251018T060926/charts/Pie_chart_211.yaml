@@ -1,0 +1,66 @@
+slice_name: Pie chart
+description: null
+certified_by: null
+certification_details: null
+viz_type: pie
+params:
+  datasource: 24__table
+  viz_type: pie
+  slice_id: 211
+  time_range: No filter
+  groupby:
+  - genres
+  metric:
+    aggregate: COUNT
+    column:
+      advanced_data_type: null
+      certification_details: null
+      certified_by: null
+      column_name: movieid
+      description: null
+      expression: null
+      filterable: true
+      groupby: true
+      id: 763
+      is_certified: false
+      is_dttm: false
+      python_date_format: null
+      type: INTEGER
+      type_generic: 0
+      verbose_name: null
+      warning_markdown: null
+    datasourceWarning: false
+    expressionType: SIMPLE
+    hasCustomLabel: false
+    label: COUNT(movieid)
+    optionName: metric_55m6bj45idq_qhsi7t3crqn
+    sqlExpression: null
+  adhoc_filters: []
+  row_limit: 100
+  sort_by_metric: true
+  color_scheme: supersetColors
+  show_labels_threshold: 5
+  show_legend: true
+  legendType: scroll
+  legendOrientation: top
+  legendMargin: null
+  label_type: key
+  number_format: SMART_NUMBER
+  date_format: smart_date
+  show_labels: true
+  labels_outside: true
+  show_total: false
+  outerRadius: 70
+  donut: true
+  innerRadius: 30
+  extra_form_data: {}
+  dashboards:
+  - 11
+  - 12
+query_context: '{"datasource":{"id":24,"type":"table"},"force":false,"queries":[{"time_range":"No
+  filter","filters":[],"extras":{"having":"","where":""},"applied_time_extras":{},"columns":["genres"],"metrics":[{"aggregate":"COUNT","column":{"advanced_data_type":null,"certification_details":null,"certified_by":null,"column_name":"movieid","description":null,"expression":null,"filterable":true,"groupby":true,"id":763,"is_certified":false,"is_dttm":false,"python_date_format":null,"type":"INTEGER","type_generic":0,"verbose_name":null,"warning_markdown":null},"datasourceWarning":false,"expressionType":"SIMPLE","hasCustomLabel":false,"label":"COUNT(movieid)","optionName":"metric_55m6bj45idq_qhsi7t3crqn","sqlExpression":null}],"orderby":[[{"aggregate":"COUNT","column":{"advanced_data_type":null,"certification_details":null,"certified_by":null,"column_name":"movieid","description":null,"expression":null,"filterable":true,"groupby":true,"id":763,"is_certified":false,"is_dttm":false,"python_date_format":null,"type":"INTEGER","type_generic":0,"verbose_name":null,"warning_markdown":null},"datasourceWarning":false,"expressionType":"SIMPLE","hasCustomLabel":false,"label":"COUNT(movieid)","optionName":"metric_55m6bj45idq_qhsi7t3crqn","sqlExpression":null},false]],"annotation_layers":[],"row_limit":100,"series_limit":0,"order_desc":true,"url_params":{},"custom_params":{},"custom_form_data":{}}],"form_data":{"datasource":"24__table","viz_type":"pie","slice_id":211,"time_range":"No
+  filter","groupby":["genres"],"metric":{"aggregate":"COUNT","column":{"advanced_data_type":null,"certification_details":null,"certified_by":null,"column_name":"movieid","description":null,"expression":null,"filterable":true,"groupby":true,"id":763,"is_certified":false,"is_dttm":false,"python_date_format":null,"type":"INTEGER","type_generic":0,"verbose_name":null,"warning_markdown":null},"datasourceWarning":false,"expressionType":"SIMPLE","hasCustomLabel":false,"label":"COUNT(movieid)","optionName":"metric_55m6bj45idq_qhsi7t3crqn","sqlExpression":null},"adhoc_filters":[],"row_limit":100,"sort_by_metric":true,"color_scheme":"supersetColors","show_labels_threshold":5,"show_legend":true,"legendType":"scroll","legendOrientation":"top","legendMargin":null,"label_type":"key","number_format":"SMART_NUMBER","date_format":"smart_date","show_labels":true,"labels_outside":true,"show_total":false,"outerRadius":70,"donut":true,"innerRadius":30,"extra_form_data":{},"dashboards":[11,12],"force":false,"result_format":"json","result_type":"full"},"result_format":"json","result_type":"full"}'
+cache_timeout: null
+uuid: 6f1f61c6-86cf-4448-be59-6b6d4abfca9c
+version: 1.0.0
+dataset_uuid: 921367a7-8c72-4063-b002-94035ad991ab

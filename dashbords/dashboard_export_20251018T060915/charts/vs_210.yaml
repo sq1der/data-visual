@@ -1,0 +1,187 @@
+slice_name: "\u041F\u043E\u043F\u0443\u043B\u044F\u0440\u043D\u043E\u0441\u0442\u044C\
+  \ vs \u041A\u0430\u0447\u0435\u0441\u0442\u0432\u043E"
+description: null
+certified_by: null
+certification_details: null
+viz_type: echarts_timeseries_scatter
+params:
+  adhoc_filters: []
+  annotation_layers: []
+  color_scheme: supersetColors
+  comparison_type: values
+  dashboards:
+  - 11
+  datasource: 45__table
+  extra_form_data: {}
+  forecastInterval: 0.8
+  forecastPeriods: 10
+  granularity_sqla: rating_datetime
+  groupby:
+  - title
+  legendOrientation: top
+  legendType: scroll
+  markerSize: 6
+  metrics:
+  - aggregate: AVG
+    column:
+      advanced_data_type: null
+      certification_details: null
+      certified_by: null
+      column_name: avg_rating
+      description: null
+      expression: null
+      filterable: true
+      groupby: true
+      id: 846
+      is_certified: false
+      is_dttm: false
+      python_date_format: null
+      type: NUMERIC
+      type_generic: 0
+      verbose_name: null
+      warning_markdown: null
+    datasourceWarning: false
+    expressionType: SIMPLE
+    hasCustomLabel: false
+    label: AVG(avg_rating)
+    optionName: metric_t72uw5scy8c_drpmpwzocru
+    sqlExpression: null
+  - aggregate: SUM
+    column:
+      advanced_data_type: null
+      certification_details: null
+      certified_by: null
+      column_name: popularity
+      description: null
+      expression: null
+      filterable: true
+      groupby: true
+      id: 845
+      is_certified: false
+      is_dttm: false
+      python_date_format: null
+      type: BIGINT
+      type_generic: 0
+      verbose_name: null
+      warning_markdown: null
+    datasourceWarning: false
+    expressionType: SIMPLE
+    hasCustomLabel: false
+    label: SUM(popularity)
+    optionName: metric_b9u9tszf3k_qdnxgk38bs
+    sqlExpression: null
+  - aggregate: SUM
+    column:
+      advanced_data_type: null
+      certification_details: null
+      certified_by: null
+      column_name: tag_count
+      description: null
+      expression: null
+      filterable: true
+      groupby: true
+      id: 847
+      is_certified: false
+      is_dttm: false
+      python_date_format: null
+      type: BIGINT
+      type_generic: 0
+      verbose_name: null
+      warning_markdown: null
+    datasourceWarning: false
+    expressionType: SIMPLE
+    hasCustomLabel: false
+    label: SUM(tag_count)
+    optionName: metric_b0tts9ix2vb_bgl5tikq4g7
+    sqlExpression: null
+  only_total: true
+  order_desc: true
+  rich_tooltip: true
+  row_limit: 50
+  show_empty_columns: true
+  show_legend: true
+  slice_id: 210
+  stack: null
+  time_grain_sqla: P1M
+  time_range: '1990  : 2018'
+  tooltipTimeFormat: smart_date
+  truncate_metric: true
+  viz_type: echarts_timeseries_scatter
+  x_axis_time_format: smart_date
+  x_axis_title_margin: 15
+  y_axis_bounds:
+  - null
+  - null
+  y_axis_format: SMART_NUMBER
+  y_axis_title_margin: 15
+  y_axis_title_position: Left
+query_context: '{"datasource": {"id": 45, "type": "table"}, "force": false, "queries":
+  [{"time_range": "1990  : 2018", "filters": [], "extras": {"time_grain_sqla": "P1M",
+  "having": "", "where": ""}, "applied_time_extras": {}, "columns": ["title"], "metrics":
+  [{"aggregate": "AVG", "column": {"advanced_data_type": null, "certification_details":
+  null, "certified_by": null, "column_name": "avg_rating", "description": null, "expression":
+  null, "filterable": true, "groupby": true, "id": 846, "is_certified": false, "is_dttm":
+  false, "python_date_format": null, "type": "NUMERIC", "type_generic": 0, "verbose_name":
+  null, "warning_markdown": null}, "datasourceWarning": false, "expressionType": "SIMPLE",
+  "hasCustomLabel": false, "label": "AVG(avg_rating)", "optionName": "metric_t72uw5scy8c_drpmpwzocru",
+  "sqlExpression": null}, {"aggregate": "SUM", "column": {"advanced_data_type": null,
+  "certification_details": null, "certified_by": null, "column_name": "popularity",
+  "description": null, "expression": null, "filterable": true, "groupby": true, "id":
+  845, "is_certified": false, "is_dttm": false, "python_date_format": null, "type":
+  "BIGINT", "type_generic": 0, "verbose_name": null, "warning_markdown": null}, "datasourceWarning":
+  false, "expressionType": "SIMPLE", "hasCustomLabel": false, "label": "SUM(popularity)",
+  "optionName": "metric_b9u9tszf3k_qdnxgk38bs", "sqlExpression": null}, {"aggregate":
+  "SUM", "column": {"advanced_data_type": null, "certification_details": null, "certified_by":
+  null, "column_name": "tag_count", "description": null, "expression": null, "filterable":
+  true, "groupby": true, "id": 847, "is_certified": false, "is_dttm": false, "python_date_format":
+  null, "type": "BIGINT", "type_generic": 0, "verbose_name": null, "warning_markdown":
+  null}, "datasourceWarning": false, "expressionType": "SIMPLE", "hasCustomLabel":
+  false, "label": "SUM(tag_count)", "optionName": "metric_b0tts9ix2vb_bgl5tikq4g7",
+  "sqlExpression": null}], "orderby": [[{"aggregate": "AVG", "column": {"advanced_data_type":
+  null, "certification_details": null, "certified_by": null, "column_name": "avg_rating",
+  "description": null, "expression": null, "filterable": true, "groupby": true, "id":
+  846, "is_certified": false, "is_dttm": false, "python_date_format": null, "type":
+  "NUMERIC", "type_generic": 0, "verbose_name": null, "warning_markdown": null}, "datasourceWarning":
+  false, "expressionType": "SIMPLE", "hasCustomLabel": false, "label": "AVG(avg_rating)",
+  "optionName": "metric_t72uw5scy8c_drpmpwzocru", "sqlExpression": null}, false]],
+  "annotation_layers": [], "row_limit": 50, "series_columns": ["title"], "series_limit":
+  0, "order_desc": true, "url_params": {}, "custom_params": {}, "custom_form_data":
+  {}, "is_timeseries": true, "time_offsets": [], "post_processing": [{"operation":
+  "pivot", "options": {"index": ["__timestamp"], "columns": ["title"], "aggregates":
+  {"AVG(avg_rating)": {"operator": "mean"}, "SUM(popularity)": {"operator": "mean"},
+  "SUM(tag_count)": {"operator": "mean"}}, "drop_missing_columns": false}}, {"operation":
+  "flatten"}]}], "form_data": {"datasource": "45__table", "viz_type": "echarts_timeseries_scatter",
+  "slice_id": 210, "granularity_sqla": "rating_datetime", "time_grain_sqla": "P1M",
+  "time_range": "1990  : 2018", "metrics": [{"aggregate": "AVG", "column": {"advanced_data_type":
+  null, "certification_details": null, "certified_by": null, "column_name": "avg_rating",
+  "description": null, "expression": null, "filterable": true, "groupby": true, "id":
+  846, "is_certified": false, "is_dttm": false, "python_date_format": null, "type":
+  "NUMERIC", "type_generic": 0, "verbose_name": null, "warning_markdown": null}, "datasourceWarning":
+  false, "expressionType": "SIMPLE", "hasCustomLabel": false, "label": "AVG(avg_rating)",
+  "optionName": "metric_t72uw5scy8c_drpmpwzocru", "sqlExpression": null}, {"aggregate":
+  "SUM", "column": {"advanced_data_type": null, "certification_details": null, "certified_by":
+  null, "column_name": "popularity", "description": null, "expression": null, "filterable":
+  true, "groupby": true, "id": 845, "is_certified": false, "is_dttm": false, "python_date_format":
+  null, "type": "BIGINT", "type_generic": 0, "verbose_name": null, "warning_markdown":
+  null}, "datasourceWarning": false, "expressionType": "SIMPLE", "hasCustomLabel":
+  false, "label": "SUM(popularity)", "optionName": "metric_b9u9tszf3k_qdnxgk38bs",
+  "sqlExpression": null}, {"aggregate": "SUM", "column": {"advanced_data_type": null,
+  "certification_details": null, "certified_by": null, "column_name": "tag_count",
+  "description": null, "expression": null, "filterable": true, "groupby": true, "id":
+  847, "is_certified": false, "is_dttm": false, "python_date_format": null, "type":
+  "BIGINT", "type_generic": 0, "verbose_name": null, "warning_markdown": null}, "datasourceWarning":
+  false, "expressionType": "SIMPLE", "hasCustomLabel": false, "label": "SUM(tag_count)",
+  "optionName": "metric_b0tts9ix2vb_bgl5tikq4g7", "sqlExpression": null}], "groupby":
+  ["title"], "adhoc_filters": [], "order_desc": true, "row_limit": 50, "truncate_metric":
+  true, "show_empty_columns": true, "comparison_type": "values", "annotation_layers":
+  [], "forecastPeriods": 10, "forecastInterval": 0.8, "x_axis_title_margin": 15, "y_axis_title_margin":
+  15, "y_axis_title_position": "Left", "color_scheme": "supersetColors", "only_total":
+  true, "markerSize": 6, "show_legend": true, "legendType": "scroll", "legendOrientation":
+  "top", "x_axis_time_format": "smart_date", "rich_tooltip": true, "tooltipTimeFormat":
+  "smart_date", "y_axis_format": "SMART_NUMBER", "y_axis_bounds": [null, null], "extra_form_data":
+  {}, "dashboards": [11], "force": false, "result_format": "json", "result_type":
+  "full"}, "result_format": "json", "result_type": "full"}'
+cache_timeout: null
+uuid: fe43bc1c-164c-42d6-8f88-fea2f8857125
+version: 1.0.0
+dataset_uuid: 3084c5b8-e906-4f00-a732-6dea47e65731

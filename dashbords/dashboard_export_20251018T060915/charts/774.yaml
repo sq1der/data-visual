@@ -1,0 +1,75 @@
+slice_name: "\u041C\u0435\u0441\u0442\u043E\u043F\u043E\u043B\u043E\u0436\u0435\u043D\
+  \u0438\u0435 \u0441\u044A\u0435\u043C\u043E\u043A \u0444\u0438\u043B\u044C\u043C\
+  \u043E\u0432"
+description: null
+certified_by: null
+certification_details: null
+viz_type: deck_scatter
+params:
+  datasource: 24__table
+  viz_type: deck_scatter
+  time_range: No filter
+  spatial:
+    type: latlong
+    latCol: latitude
+    lonCol: longitude
+  row_limit: 250
+  filter_nulls: true
+  adhoc_filters: []
+  mapbox_style: mapbox://styles/mapbox/light-v9
+  viewport:
+    width: 934
+    height: 359
+    latitude: 29.55705179625989
+    longitude: 8.535055944377488
+    zoom: 0.43502815896219654
+    bearing: 0
+    pitch: 0
+    altitude: 1.5
+    maxZoom: 20
+    minZoom: 0
+    maxPitch: 60
+    minPitch: 0
+  autozoom: true
+  point_radius_fixed:
+    type: fix
+    value: 1000
+  point_unit: square_m
+  min_radius: 2
+  max_radius: 250
+  multiplier: 1
+  color_picker:
+    r: 0
+    g: 122
+    b: 135
+    a: 1
+  legend_position: tr
+  legend_format: SMART_NUMBER
+  color_scheme: supersetColors
+  js_columns:
+  - title
+  time_grain_sqla: null
+  extra_form_data: {}
+  dashboards:
+  - 11
+query_context: '{"datasource": {"id": 24, "type": "table"}, "force": false, "queries":
+  [{"time_range": "No filter", "filters": [], "extras": {"time_grain_sqla": null,
+  "having": "", "where": ""}, "applied_time_extras": {}, "columns": [], "metrics":
+  [], "annotation_layers": [], "row_limit": 250, "series_limit": 0, "order_desc":
+  true, "url_params": {}, "custom_params": {}, "custom_form_data": {}}], "form_data":
+  {"datasource": "24__table", "viz_type": "deck_scatter", "time_range": "No filter",
+  "spatial": {"type": "latlong", "latCol": "latitude", "lonCol": "longitude"}, "row_limit":
+  250, "filter_nulls": true, "adhoc_filters": [], "mapbox_style": "mapbox://styles/mapbox/light-v9",
+  "viewport": {"width": 934, "height": 359, "latitude": 29.55705179625989, "longitude":
+  8.535055944377488, "zoom": 0.43502815896219654, "bearing": 0, "pitch": 0, "altitude":
+  1.5, "maxZoom": 20, "minZoom": 0, "maxPitch": 60, "minPitch": 0}, "autozoom": true,
+  "point_radius_fixed": {"type": "fix", "value": 1000}, "point_unit": "square_m",
+  "min_radius": 2, "max_radius": 250, "multiplier": 1, "color_picker": {"r": 0, "g":
+  122, "b": 135, "a": 1}, "legend_position": "tr", "legend_format": "SMART_NUMBER",
+  "color_scheme": "supersetColors", "js_columns": ["title"], "time_grain_sqla": null,
+  "extra_form_data": {}, "dashboards": [11], "force": false, "result_format": "json",
+  "result_type": "full"}, "result_format": "json", "result_type": "full"}'
+cache_timeout: null
+uuid: 4db17ad4-f7f9-48a7-974e-93c49f433c2a
+version: 1.0.0
+dataset_uuid: 921367a7-8c72-4063-b002-94035ad991ab

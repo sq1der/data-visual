@@ -1,0 +1,130 @@
+table_name: ratings
+main_dttm_col: null
+description: null
+default_endpoint: null
+offset: 0
+cache_timeout: null
+catalog: movies_db
+schema: public
+sql: ''
+params: null
+template_params: null
+filter_select_enabled: false
+fetch_values_predicate: null
+extra: null
+normalize_columns: true
+always_filter_main_dttm: false
+uuid: 1f738a62-cae9-4ad9-bfc1-d63c35b96509
+metrics:
+- metric_name: <new metric>
+  verbose_name: This
+  metric_type: null
+  expression: '( SUM(CASE WHEN date_part(''year'', rating_datetime) = EXTRACT(YEAR
+    FROM NOW()) THEN rating ELSE 0 END) / GREATEST(NULLIF(SUM(CASE WHEN date_part(''year'',
+    rating_datetime) = EXTRACT(YEAR FROM NOW()) - 1 THEN rating ELSE 0 END),0),1)
+    - 1 ) * 100
+
+    '
+  description: null
+  d3format: null
+  currency: null
+  extra: {}
+  warning_text: null
+- metric_name: Mediana
+  verbose_name: PERCENTILE
+  metric_type: null
+  expression: "PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY rating)\n      \n"
+  description: null
+  d3format: null
+  currency: null
+  extra:
+    warning_markdown: ''
+  warning_text: null
+- metric_name: Average rating
+  verbose_name: AVG Rating
+  metric_type: null
+  expression: AVG(rating)
+  description: null
+  d3format: null
+  currency: null
+  extra:
+    warning_markdown: ''
+  warning_text: null
+- metric_name: count
+  verbose_name: COUNT(*)
+  metric_type: null
+  expression: COUNT(*)
+  description: null
+  d3format: null
+  currency: null
+  extra:
+    warning_markdown: ''
+  warning_text: null
+columns:
+- column_name: rating_datetime
+  verbose_name: null
+  is_dttm: true
+  is_active: null
+  type: TIMESTAMP WITHOUT TIME ZONE
+  advanced_data_type: null
+  groupby: true
+  filterable: true
+  expression: null
+  description: null
+  python_date_format: null
+  extra:
+    warning_markdown: null
+- column_name: rating
+  verbose_name: null
+  is_dttm: false
+  is_active: null
+  type: NUMERIC(2, 1)
+  advanced_data_type: null
+  groupby: true
+  filterable: true
+  expression: null
+  description: null
+  python_date_format: null
+  extra:
+    warning_markdown: null
+- column_name: timestamp
+  verbose_name: null
+  is_dttm: false
+  is_active: null
+  type: BIGINT
+  advanced_data_type: null
+  groupby: true
+  filterable: true
+  expression: null
+  description: null
+  python_date_format: null
+  extra:
+    warning_markdown: null
+- column_name: movieid
+  verbose_name: null
+  is_dttm: false
+  is_active: null
+  type: INTEGER
+  advanced_data_type: null
+  groupby: true
+  filterable: true
+  expression: null
+  description: null
+  python_date_format: null
+  extra:
+    warning_markdown: null
+- column_name: userid
+  verbose_name: null
+  is_dttm: false
+  is_active: null
+  type: INTEGER
+  advanced_data_type: null
+  groupby: true
+  filterable: true
+  expression: null
+  description: null
+  python_date_format: null
+  extra:
+    warning_markdown: null
+version: 1.0.0
+database_uuid: e26810fd-4165-4338-b335-f00bb40947ac

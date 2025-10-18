@@ -1,0 +1,88 @@
+table_name: "Genre \u2192 Movie Title (\u043F\u043E \u043A\u043E\u043B\u0438\u0447\
+  \u0435\u0441\u0442\u0432\u0443 \u043E\u0446\u0435\u043D\u043E\u043A) (Treemap)"
+main_dttm_col: null
+description: null
+default_endpoint: null
+offset: 0
+cache_timeout: null
+catalog: movies_db
+schema: public
+sql: "WITH movie_popularity AS (\n  SELECT\n    m.movieid,\n    m.title,\n    COUNT(r.rating)\
+  \ AS rating_count,\n    ROUND(AVG(r.rating), 2) AS avg_rating\n  FROM ratings r\n\
+  \  JOIN movies m ON m.movieid = r.movieid\n  GROUP BY m.movieid, m.title\n  HAVING\
+  \ COUNT(r.rating) >= 100 -- \u0444\u0438\u043B\u044C\u0442\u0440\u0443\u0435\u043C\
+  \ \u043C\u0435\u043D\u0435\u0435 \u043F\u043E\u043F\u0443\u043B\u044F\u0440\u043D\
+  \u044B\u0435 \u0444\u0438\u043B\u044C\u043C\u044B\n),\ngenre_split AS (\n  SELECT\n\
+  \    mp.movieid,\n    mp.title,\n    mp.rating_count,\n    mp.avg_rating,\n    UNNEST(string_to_array(m.genres,\
+  \ '|')) AS genre\n  FROM movie_popularity mp\n  JOIN movies m ON m.movieid = mp.movieid\n\
+  )\nSELECT\n  genre,\n  title,\n  rating_count,\n  avg_rating\nFROM genre_split\n\
+  ORDER BY genre, rating_count DESC"
+params: null
+template_params: null
+filter_select_enabled: false
+fetch_values_predicate: null
+extra: null
+normalize_columns: true
+always_filter_main_dttm: false
+uuid: fb1ca22c-2068-4a6e-a70b-96258aa55ee0
+metrics:
+- metric_name: count
+  verbose_name: null
+  metric_type: null
+  expression: count(*)
+  description: null
+  d3format: null
+  currency: null
+  extra: null
+  warning_text: null
+columns:
+- column_name: avg_rating
+  verbose_name: null
+  is_dttm: false
+  is_active: true
+  type: DECIMAL
+  advanced_data_type: null
+  groupby: true
+  filterable: true
+  expression: null
+  description: null
+  python_date_format: null
+  extra: null
+- column_name: rating_count
+  verbose_name: null
+  is_dttm: false
+  is_active: true
+  type: LONGINTEGER
+  advanced_data_type: null
+  groupby: true
+  filterable: true
+  expression: null
+  description: null
+  python_date_format: null
+  extra: null
+- column_name: genre
+  verbose_name: null
+  is_dttm: false
+  is_active: true
+  type: STRING
+  advanced_data_type: null
+  groupby: true
+  filterable: true
+  expression: null
+  description: null
+  python_date_format: null
+  extra: null
+- column_name: title
+  verbose_name: null
+  is_dttm: false
+  is_active: true
+  type: STRING
+  advanced_data_type: null
+  groupby: true
+  filterable: true
+  expression: null
+  description: null
+  python_date_format: null
+  extra: null
+version: 1.0.0
+database_uuid: e26810fd-4165-4338-b335-f00bb40947ac
