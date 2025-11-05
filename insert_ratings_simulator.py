@@ -8,12 +8,7 @@ engine = config.get_engine()
 def get_random_user_and_movie(conn):
     # если нет таблицы users, используем произвольные userid > max(userid)
     res = conn.execute(text("SELECT min(userid) as min_u, max(userid) as max_u FROM ratings")).fetchone()
-    if res and res[1] is not None:
-        min_u = int(res[0] or 1)
-        max_u = int(res[1])
-        userid = random.randint(min_u, max_u)
-    else:
-        userid = random.randint(100000, 200000)
+    userid = 283228
     movie = conn.execute(text("SELECT movieid FROM movies ORDER BY random() LIMIT 1")).fetchone()
     return userid, int(movie[0])
 
